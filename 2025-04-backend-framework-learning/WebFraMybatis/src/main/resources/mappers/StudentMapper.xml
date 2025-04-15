@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="student">
+    <resultMap id="studentWithClass" type="com.example.webframybatis.model.Student">
+        <id property="id" column="id"/>
+        <result property="studentNo" column="student_no"/>
+        <result property="name" column="name"/>
+        <result property="classId" column="class_id"/>
+        <association property="classInfo" javaType="com.example.webframybatis.model.ClassInfo">
+            <id property="classId" column="class_id"/>
+            <result property="className" column="class_name"/>
+            <result property="department" column="department"/>
+        </association>
+    </resultMap>
+
+    <select id="findAllWithClass" resultMap="studentWithClass">
+        SELECT s.*, c.class_name, c.department
+        FROM student s
+                 LEFT JOIN class c ON s.class_id = c.class_id
+    </select>
+
+    <select id="findById" parameterType="int" resultMap="studentWithClass">
+        SELECT s.*, c.class_name, c.department
+        FROM student s
+                 LEFT JOIN class c ON s.class_id = c.class_id
+        WHERE s.id = #{id}
+    </select>
+
+    <insert id="insert" parameterType="com.example.webframybatis.model.Student">
+        INSERT INTO student (student_no, name, class_id)
+        VALUES (#{studentNo}, #{name}, #{classId})
+    </insert>
+
+    <update id="update" parameterType="com.example.webframybatis.model.Student">
+        UPDATE student
+        SET student_no = #{studentNo}, name = #{name}, class_id = #{classId}
+        WHERE id = #{id}
+    </update>
+
+    <delete id="delete" parameterType="int">
+        DELETE FROM student WHERE id = #{id}
+    </delete>
+</mapper>

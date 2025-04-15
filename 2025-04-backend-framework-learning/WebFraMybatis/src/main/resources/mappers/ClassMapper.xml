@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="class">
+    <resultMap id="classResult" type="com.example.webframybatis.model.ClassInfo">
+        <id property="classId" column="class_id"/>
+        <result property="className" column="class_name"/>
+        <result property="department" column="department"/>
+    </resultMap>
+
+    <select id="findAll" resultMap="classResult">
+        SELECT * FROM class
+    </select>
+
+    <select id="findById" parameterType="int" resultMap="classResult">
+        SELECT * FROM class WHERE class_id = #{id}
+    </select>
+</mapper>
